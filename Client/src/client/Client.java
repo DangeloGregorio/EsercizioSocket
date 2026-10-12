@@ -15,20 +15,36 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("localhost", 5555);
+       
+        Socket socket = new Socket("127.0.0.1", 5555);
+        System.out.println("Connesso al server");
 
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         Scanner tastiera = new Scanner(System.in);
 
-        while (true) {
-        // Scrive e invia il messaggio
-        System.out.print("Client: ");
-        out.writeUTF(tastiera.nextLine());
+        //Legge i messaggi inviati dal Server e li mostra a schermo
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String msg = in.readUTF();
+                    System.out.println("\nServer: " + msg);
+                }
+            } catch (Exception e) {
+                System.out.println("\nIl server si e' disconnesso.");
+                System.exit(0);
+            }
+        }).start();
 
-        // Legge la risposta del server
-        System.out.println("Server: " + in.readUTF());
-
+        // Legge dalla tastiera del Client e invia al Server
+        try {
+            while (true) {
+                String msg = tastiera.nextLine();
+                out.writeUTF(msg);
+                out.flush();
+            }
+        } catch (Exception e) {
+            System.exit(0);
         }
     }
 }
