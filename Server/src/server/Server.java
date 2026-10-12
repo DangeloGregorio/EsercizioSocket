@@ -14,55 +14,43 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
-    // Lista di tutti i client connessi
-    private static List<DataOutputStream> listaClient = new ArrayList<>();
+    static List<DataOutputStream> clientList = new ArrayList<>();
+    static int count = 0;
 
     public static void main(String[] args) throws Exception {
-        ServerSocket serverSocket = new ServerSocket(5555);
-        System.out.println("In attesa del client...");
+        ServerSocket server = new ServerSocket(5555);
         Scanner tastiera = new Scanner(System.in);
 
-        // Legge dalla tastiera del Server e invia a tutti i client
+        // THREAD 1: Invia da tastiera a tutti i client
         new Thread(() -> {
-            try {
-                while (true) {
+            while (true) {
+                try {
                     String msg = tastiera.nextLine();
-                    synchronized (listaClient) {
-                        for (DataOutputStream out : listaClient) {
-                            out.writeUTF(msg);
-                            out.flush();
-                        }
+                    for (DataOutputStream out : clientList) {
+                        out.writeUTF("Server: " + msg);
+                        out.flush();
                     }
-                }
-            } catch (Exception e) {
-                System.exit(0);
+                } catch (Exception e) {}
             }
         }).start();
 
-        // Accetta nuovi client continuamente
+        // ACCETTA MULTI-CLIENT
         while (true) {
-            Socket socket = serverSocket.accept();
-            System.out.println("Client connesso!");
+            Socket socket = server.accept();
+            int id = ++count;
+            System.out.println("Client #" + id + " connesso!");
 
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-
-            synchronized (listaClient) {
-                listaClient.add(out);
-            }
-
-            //Legge i messaggi inviati da questo specifico Client
             new Thread(() -> {
                 try {
+                    DataInputStream in = new DataInputStream(socket.getInputStream());
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                    clientList.add(out);
+
                     while (true) {
-                        String msg = in.readUTF();
-                        System.out.println("\nClient: " + msg);
+                        System.out.println("Client #" + id + ": " + in.readUTF());
                     }
                 } catch (Exception e) {
-                    System.out.println("\nUn client si e' disconnesso.");
-                    synchronized (listaClient) {
-                        listaClient.remove(out);
-                    }
+                    System.out.println("Client #" + id + " disconnesso.");
                 }
             }).start();
         }
