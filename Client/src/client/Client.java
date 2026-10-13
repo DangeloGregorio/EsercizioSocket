@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("127.0.0.1", 5555);
+        Socket socket = new Socket("localhost", 5555);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         Scanner tastiera = new Scanner(System.in);
@@ -24,7 +24,7 @@ public class Client {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("\n" + in.readUTF());
+                    System.out.println(in.readUTF());
                 } catch (Exception e) {
                     System.out.println("Server disconnesso.");
                     System.exit(0);

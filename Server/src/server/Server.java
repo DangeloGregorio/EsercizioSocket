@@ -9,50 +9,21 @@ package server;
  * @author dangelo.gregorio
  */
 
-import java.io.*;
 import java.net.*;
-import java.util.*;
 
 public class Server {
-    static List<DataOutputStream> clientList = new ArrayList<>();
-    static int count = 0;
+    private static int contatoreClient = 0;
 
     public static void main(String[] args) throws Exception {
-        ServerSocket server = new ServerSocket(5555);
-        Scanner tastiera = new Scanner(System.in);
+        ServerSocket serverSocket = new ServerSocket(5555);
+        System.out.println("Server Palla Magica attivo");
 
-        //Invia da tastiera a tutti i client
-        new Thread(() -> {
-            while (true) {
-                try {
-                    String msg = tastiera.nextLine();
-                    for (DataOutputStream out : clientList) {
-                        out.writeUTF("Server: " + msg);
-                        out.flush();
-                    }
-                } catch (Exception e) {}
-            }
-        }).start();
-
-        // multi client
         while (true) {
-            Socket socket = server.accept();
-            int id = ++count;
-            System.out.println("Client #" + id + " connesso!");
+            Socket socket = serverSocket.accept();
+            contatoreClient++;
+            System.out.println("Client #" + contatoreClient + " connesso!");
 
-            new Thread(() -> {
-                try {
-                    DataInputStream in = new DataInputStream(socket.getInputStream());
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    clientList.add(out);
-
-                    while (true) {
-                        System.out.println("Client #" + id + ": " + in.readUTF());
-                    }
-                } catch (Exception e) {
-                    System.out.println("Client #" + id + " disconnesso.");
-                }
-            }).start();
+            new GestoreClient(socket, contatoreClient).start();
         }
     }
 }
