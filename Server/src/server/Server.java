@@ -21,7 +21,7 @@ public class Server {
         ServerSocket server = new ServerSocket(5555);
         Scanner tastiera = new Scanner(System.in);
 
-        // THREAD 1: Invia da tastiera a tutti i client
+        //Invia da tastiera a tutti i client
         new Thread(() -> {
             while (true) {
                 try {
@@ -34,7 +34,7 @@ public class Server {
             }
         }).start();
 
-        // ACCETTA MULTI-CLIENT
+        // multi client
         while (true) {
             Socket socket = server.accept();
             int id = ++count;

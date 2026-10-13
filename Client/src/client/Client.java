@@ -20,7 +20,7 @@ public class Client {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         Scanner tastiera = new Scanner(System.in);
 
-        // THREAD 1: Legge i messaggi del server
+        // Legge i messaggi del server
         new Thread(() -> {
             while (true) {
                 try {
@@ -32,7 +32,7 @@ public class Client {
             }
         }).start();
 
-        // THREAD 2 (Main): Invia i messaggi al server
+        //Invia i messaggi al server
         while (true) {
             out.writeUTF(tastiera.nextLine());
             out.flush();
