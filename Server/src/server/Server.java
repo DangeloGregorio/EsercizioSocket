@@ -12,12 +12,15 @@ package server;
 import java.net.*;
 
 public class Server {
+    // variabili
     private static int contatoreClient = 0;
 
+    // avvio server
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(5555);
         System.out.println("Server Palla Magica attivo");
 
+        // ascolto connessioni
         while (true) {
             Socket socket = serverSocket.accept();
             contatoreClient++;

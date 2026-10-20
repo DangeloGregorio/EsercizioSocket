@@ -10,40 +10,41 @@ import java.util.Random;
  *
  * @author dangelo.gregorio
  */
+
+
 public class PallaMagica {
-    private  String personalita;
-    private  Random random = new Random();
+    // variabili
+    private String personalita;
+    private Random random = new Random();
     
-    
+    // liste risposte
     private final String[] risposteNormali = {
         "e certo",
         "e decisamente così",
         "senza dubbio",
-        "sì, sicuramente",
+        "si, sicuramente",
         "puoi contarci",
-        "come la vedo io, sì",
+        "come la vedo io, si",
         "molto probabilmente",
         "buone prospettive",
-        "i segni dicono di sì",
+        "i segni dicono di si",
         "risposta confusa, riprova",
-        "chiedi più tardi",
+        "chiedi piu tardi",
         "meglio non dirtelo ora",
         "non posso prevedere ora",
         "concentrati e chiedi di nuovo",
         "non contarci",
-        "la mia risposta è no",
+        "la mia risposta e no",
         "le mie fonti dicono di no",
         "prospettive non buone",
         "molto dubbio"
-        
-        
     };
+    
     private final String[] risposteSecche = {
-        "sì.",
+        "si.",
         "no",
         "forse",
         "snasni"
-        
     };
     
     private final String[] risposteMeme = {
@@ -61,27 +62,38 @@ public class PallaMagica {
         "ma che ne so io",
         "dangelo e un terrone",
         "casalekkio",
-        "uuoh oh"
+        "uuoh oh",
+        "e stato dangelo"
     };
     
+    // costruttore
     public PallaMagica(String personalita) {
         this.personalita = personalita;
     }
 
+    // getter
     public String getPersonalita() {
         return personalita;
     }
 
+    // controllo personalita valida
+    public static boolean valida(String p) {
+        if (p == null) return false;
+        String s = p.toLowerCase();
+        return s.equals("normale") || s.equals("secca") || s.equals("bini") || s.equals("meme");
+    }
+
+    // generazione risposta
     public String rispondi(String domanda) {
         String[] scelte;
         switch (personalita.toLowerCase()) {
-            case "Bini":
+            case "bini":
                 scelte = risposteBini;
                 break;
-            case "Meme":
+            case "meme":
                 scelte = risposteMeme;
                 break;
-            case "Secche":
+            case "secca":
                 scelte = risposteSecche;
                 break;
             default:
@@ -91,4 +103,3 @@ public class PallaMagica {
         return "[" + personalita.toUpperCase() + "]: " + scelte[random.nextInt(scelte.length)];
     }
 }
-
