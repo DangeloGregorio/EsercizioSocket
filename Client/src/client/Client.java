@@ -9,33 +9,11 @@ package client;
  * @author dangelo.gregorio
  */
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
 
 public class Client {
-    public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("localhost", 5555);
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        Scanner tastiera = new Scanner(System.in);
-
-        // Legge i messaggi del server
-        new Thread(() -> {
-            while (true) {
-                try {
-                    System.out.println(in.readUTF());
-                } catch (Exception e) {
-                    System.out.println("Server disconnesso.");
-                    System.exit(0);
-                }
-            }
-        }).start();
-
-        //Invia i messaggi al server
-        while (true) {
-            out.writeUTF(tastiera.nextLine());
-            out.flush();
-        }
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> {
+            new ClientGUI().setVisible(true);
+        });
     }
 }

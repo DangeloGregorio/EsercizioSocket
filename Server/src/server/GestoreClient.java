@@ -62,8 +62,8 @@ public class GestoreClient extends Thread {
                     out.writeUTF("GUIDA AIUTO");
                     out.writeUTF("1. Fai domande a cui si risponde con SI o NO.");
                     out.writeUTF("2. La Palla Magica rispondera in base alla personalita (" + palla.getPersonalita().toUpperCase() + ").");
-                    out.writeUTF("3. Scrivi 'p' per cambiare personalita.");
-                    out.writeUTF("4. Scrivi 'esci' per chiudere la chat.\n");
+                    out.writeUTF("3. Clicca 'Cambia Personalità' per cambiare personalita.");
+                    out.writeUTF("4. Clicca 'esci' per chiudere la chat.\n");
                 } else if (messaggio.equalsIgnoreCase("esci")) {
                     out.flush();
                     break;
@@ -85,7 +85,7 @@ public class GestoreClient extends Thread {
                     System.out.println("Client #" + idClient + " chiede: " + messaggio);
                     String risposta = palla.rispondi(messaggio);
                     out.writeUTF(risposta);
-                    out.writeUTF("per cambiare personalita digita 'p'");
+                    out.writeUTF("per cambiare personalita cliccare 'Cambia Personalità'");
                 }
                 out.flush();
             }

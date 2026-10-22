@@ -52,7 +52,9 @@ public class PallaMagica {
         "si, bobby restera a Roma",
         "e guardamose",
         "casalekkio",
-        "ah io cappo "
+        "ah io cappo ",
+        "ma cosa ho appena letto",
+        "real",
     };
     
     private final String[] risposteBini = {
@@ -63,6 +65,8 @@ public class PallaMagica {
         "dangelo e un terrone",
         "casalekkio",
         "uuoh oh",
+        "non ho capito",
+        "boh",
         "e stato dangelo"
     };
     
