@@ -12,18 +12,27 @@ import javax.swing.SwingUtilities;
  *
  * @author dange
  */
+
+// classe principale della gui del client
 public class ClientGUI extends javax.swing.JFrame {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
 
-    private void abilitaInvio(boolean abilita) {
-        txtMessaggio.setEnabled(abilita);
-        btnInvia.setEnabled(abilita);
-        btnAiuto.setEnabled(abilita);
-        btnPersonalita.setEnabled(abilita);
-        btnEsci.setEnabled(abilita);
+    // costruttore della gui
+    public ClientGUI() {
+        initComponents();
+        
+        getContentPane().setPreferredSize(new java.awt.Dimension(448, 350));
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+
+        connetti();
     }
+
+
+    // invia un messaggio al server
     private void invia(String testo) {
         try {
             out.writeUTF(testo);
@@ -34,16 +43,34 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ClientGUI.class.getName());
+    // gestisce la connessione al server
+    private void connetti() {
+        new Thread(() -> {
+            try {
+                socket = new Socket("localhost", 5555);
+                out = new DataOutputStream(socket.getOutputStream());
+                in = new DataInputStream(socket.getInputStream());
 
-    /**
-     * Creates new form ClientGUI
-     */
-    public ClientGUI() {
-        initComponents();
-        abilitaInvio(false);
+                while (true) {
+                    String msg = in.readUTF();
+                    SwingUtilities.invokeLater(() -> riceviMessaggio(msg));
+                }
+            } catch (IOException e) {
+                SwingUtilities.invokeLater(this::connessioneChiusa);
+            }
+        }).start();
     }
 
+    // mostra il messaggio ricevuto in chat
+    private void riceviMessaggio(String msg) {
+        txtChat.append(msg + "\n");
+    }
+
+    // avvisa che la connessione e chiusa
+    private void connessioneChiusa() {
+        txtChat.append("Connessione chiusa\n");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,14 +87,16 @@ public class ClientGUI extends javax.swing.JFrame {
         btnPersonalita = new javax.swing.JButton();
         btnEsci = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        btnConnetti = new javax.swing.JButton();
-        txtHost = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtChat = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(456, 219));
+        setResizable(false);
+        setSize(new java.awt.Dimension(456, 219));
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         txtMessaggio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +154,7 @@ public class ClientGUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEsci))
                             .addComponent(jLabel2))
-                        .addGap(0, 3, Short.MAX_VALUE)))
+                        .addGap(0, 24, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -146,80 +175,33 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Server:");
-
-        btnConnetti.setText("Connetti");
-        btnConnetti.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConnettiActionPerformed(evt);
-            }
-        });
-
-        txtHost.setText("LocalHost");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(135, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129))
-            .addComponent(btnConnetti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtHost, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnConnetti, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
-
         txtChat.setEditable(false);
         txtChat.setColumns(20);
         txtChat.setRows(5);
+        txtChat.setMinimumSize(new java.awt.Dimension(232, 84));
         jScrollPane1.setViewportView(txtChat);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("$ -------  Oracolo  ------- $");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnConnettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnettiActionPerformed
-       try {
-            socket = new Socket(txtHost.getText().trim(), 5555);
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-            abilitaInvio(true);
-            btnConnetti.setEnabled(false);
-
-            // thread che ascolta i messaggi del server
-            new Thread(() -> {
-                try {
-                    while (true) {
-                        String msg = in.readUTF();
-                        SwingUtilities.invokeLater(() -> txtChat.append(msg + "\n"));
-                    }
-                } catch (IOException e) {
-                    SwingUtilities.invokeLater(() -> {
-                        txtChat.append("[Disconnesso]\n");
-                        abilitaInvio(false);
-                        btnConnetti.setEnabled(true);
-                    });
-                }
-            }).start();
-        } catch (IOException e) {
-            txtChat.append("Impossibile connettersi: " + e.getMessage() + "\n");
-        }
-    }//GEN-LAST:event_btnConnettiActionPerformed
 
     private void btnInviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInviaActionPerformed
        invia(txtMessaggio.getText());
@@ -245,17 +227,15 @@ public class ClientGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAiuto;
-    private javax.swing.JButton btnConnetti;
     private javax.swing.JButton btnEsci;
     private javax.swing.JButton btnInvia;
     private javax.swing.JButton btnPersonalita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtChat;
-    private javax.swing.JTextField txtHost;
     private javax.swing.JTextField txtMessaggio;
     // End of variables declaration//GEN-END:variables
 }

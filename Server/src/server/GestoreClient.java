@@ -48,7 +48,7 @@ public class GestoreClient extends Thread {
             PallaMagica palla = new PallaMagica(sceltaPersonalita);
 
             out.writeUTF("Personalita impostata: " + palla.getPersonalita().toUpperCase());
-            out.writeUTF("Scrivi 'aiuto' per le istruzioni, oppure fai subito una domanda");
+            out.writeUTF("Premi 'aiuto' per le istruzioni, oppure fai subito una domanda");
             out.flush();
 
             // gestione messaggi
@@ -57,7 +57,7 @@ public class GestoreClient extends Thread {
 
                 // controllo messaggio vuoto
                 if (messaggio.isEmpty()) {
-                    out.writeUTF("Non hai scritto niente, Fai una domanda oppure digita 'aiuto', 'p' o 'esci'.");
+                    out.writeUTF("Non hai scritto niente, fai una domanda oppure digita 'aiuto', 'p' o 'esci'.");
                 } else if (messaggio.equalsIgnoreCase("aiuto")) {
                     out.writeUTF("GUIDA AIUTO");
                     out.writeUTF("1. Fai domande a cui si risponde con SI o NO.");
@@ -85,7 +85,7 @@ public class GestoreClient extends Thread {
                     System.out.println("Client #" + idClient + " chiede: " + messaggio);
                     String risposta = palla.rispondi(messaggio);
                     out.writeUTF(risposta);
-                    out.writeUTF("per cambiare personalita cliccare 'Cambia Personalità'");
+                    out.writeUTF("per cambiare personalita Premere 'Cambia Personalità'");
                 }
                 out.flush();
             }
