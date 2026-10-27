@@ -23,7 +23,7 @@ public class ClientGUI extends javax.swing.JFrame {
     public ClientGUI() {
         initComponents();
         
-        getContentPane().setPreferredSize(new java.awt.Dimension(448, 350));
+        getContentPane().setPreferredSize(new java.awt.Dimension(765, 620));
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -96,14 +96,21 @@ public class ClientGUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(456, 219));
         setResizable(false);
         setSize(new java.awt.Dimension(456, 219));
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
+        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
+
+        txtMessaggio.setBackground(new java.awt.Color(0, 102, 102));
+        txtMessaggio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMessaggio.setForeground(new java.awt.Color(173, 252, 252));
         txtMessaggio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMessaggioActionPerformed(evt);
             }
         });
 
+        btnInvia.setBackground(new java.awt.Color(0, 102, 102));
+        btnInvia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnInvia.setForeground(new java.awt.Color(255, 255, 255));
         btnInvia.setText("Invia");
         btnInvia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +118,9 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        btnAiuto.setBackground(new java.awt.Color(0, 102, 102));
+        btnAiuto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAiuto.setForeground(new java.awt.Color(255, 255, 255));
         btnAiuto.setText("Aiuto");
         btnAiuto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +128,9 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        btnPersonalita.setBackground(new java.awt.Color(0, 102, 102));
+        btnPersonalita.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPersonalita.setForeground(new java.awt.Color(255, 255, 255));
         btnPersonalita.setText("Cambia Personalità");
         btnPersonalita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,6 +138,9 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        btnEsci.setBackground(new java.awt.Color(0, 102, 102));
+        btnEsci.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEsci.setForeground(new java.awt.Color(255, 255, 255));
         btnEsci.setText("Esci");
         btnEsci.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +148,8 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Scrivi:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -142,60 +160,68 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMessaggio)
+                    .addComponent(btnInvia, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnInvia)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAiuto)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnPersonalita)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEsci))
-                            .addComponent(jLabel2))
-                        .addGap(0, 24, Short.MAX_VALUE)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(btnAiuto, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnPersonalita, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEsci, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMessaggio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnInvia)
-                    .addComponent(btnAiuto)
-                    .addComponent(btnPersonalita)
-                    .addComponent(btnEsci))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(txtMessaggio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnInvia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAiuto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEsci, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPersonalita, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         txtChat.setEditable(false);
+        txtChat.setBackground(new java.awt.Color(0, 102, 102));
         txtChat.setColumns(20);
+        txtChat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtChat.setForeground(new java.awt.Color(173, 252, 252));
         txtChat.setRows(5);
         txtChat.setMinimumSize(new java.awt.Dimension(232, 84));
         jScrollPane1.setViewportView(txtChat);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("$ -------  Oracolo  ------- $");
+        jLabel1.setText("Oracolo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
