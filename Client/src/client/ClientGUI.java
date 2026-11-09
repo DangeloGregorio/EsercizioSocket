@@ -53,7 +53,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
                 while (true) {
                     String msg = in.readUTF();
-                    SwingUtilities.invokeLater(() -> riceviMessaggio(msg));
+                    riceviMessaggio(msg);
                 }
             } catch (IOException e) {
                 SwingUtilities.invokeLater(this::connessioneChiusa);
