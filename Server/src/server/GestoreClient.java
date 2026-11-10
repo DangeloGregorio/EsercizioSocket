@@ -17,44 +17,44 @@ public class GestoreClient extends Thread {
     // variabili
     private final Socket socket;
     private final int idClient;
-
+ 
     // costruttore
     public GestoreClient(Socket socket, int idClient) {
         this.socket = socket;
         this.idClient = idClient;
     }
-
+ 
     @Override
-    public void run() {
+     public void run() {
         try {
             // flusso dati
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-
+ 
             // invio messaggio iniziale
             out.writeUTF("Benvenuto nella palla");
             out.writeUTF("Scegli una personalita tra: Normale, Secca, Bini, Meme");
             out.flush();
-
+ 
             // scelta personalita iniziale con controllo errore
             String sceltaPersonalita = in.readUTF().trim();
             
-            while (!PallaMagica.valida(sceltaPersonalita)) {
+            while (!PallaMagicaJson.valida(sceltaPersonalita)) {
                 out.writeUTF("Personalita non valida, Scegli tra: Normale, Secca, Bini, Meme");
                 out.flush();
                 sceltaPersonalita = in.readUTF().trim();
             }
-
-            PallaMagica palla = new PallaMagica(sceltaPersonalita);
-
+ 
+            PallaMagicaJson palla = new PallaMagicaJson(sceltaPersonalita);
+ 
             out.writeUTF("Personalita impostata: " + palla.getPersonalita().toUpperCase());
             out.writeUTF("Premi 'aiuto' per le istruzioni, oppure fai subito una domanda");
             out.flush();
-
+ 
             // gestione messaggi
             while (true) {
                 String messaggio = in.readUTF().trim();
-
+ 
                 // controllo messaggio vuoto
                 if (messaggio.isEmpty()) {
                     out.writeUTF("Non hai scritto niente, fai una domanda oppure digita 'aiuto', 'p' o 'esci'.");
@@ -73,13 +73,13 @@ public class GestoreClient extends Thread {
                     out.flush();
                     String nuovaPersonalita = in.readUTF().trim();
                     
-                    while (!PallaMagica.valida(nuovaPersonalita)) {
+                    while (!PallaMagicaJson.valida(nuovaPersonalita)) {
                         out.writeUTF("Personalita non valida, Scegli tra: Normale, Secca, Bini, Meme");
                         out.flush();
                         nuovaPersonalita = in.readUTF().trim();
                     }
                     
-                    palla = new PallaMagica(nuovaPersonalita);
+                    palla = new PallaMagicaJson(nuovaPersonalita);
                     out.writeUTF("Personalita impostata: " + palla.getPersonalita().toUpperCase());
                 } else {
                     System.out.println("Client #" + idClient + " chiede: " + messaggio);
@@ -89,8 +89,12 @@ public class GestoreClient extends Thread {
                 }
                 out.flush();
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             System.out.println("Client #" + idClient + " disconnesso.");
+            e.printStackTrace();
+            try {
+                new DataOutputStream(socket.getOutputStream()).writeUTF("ERRORE SERVER: " + e);
+            } catch (IOException ignored) {}
         } finally {
             // chiusura socket
             try {
