@@ -17,7 +17,6 @@ public class Server {
 
     // avvio server
     public static void main(String[] args) throws Exception {
-        PallaMagica.caricaCatalogo("risposte.json");
         ServerSocket serverSocket = new ServerSocket(5555);
         System.out.println("Server Palla Magica attivo");
 

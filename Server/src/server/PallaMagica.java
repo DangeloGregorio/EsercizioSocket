@@ -14,49 +14,97 @@ import java.util.*;
 
 
 public class PallaMagica {
-     private static HashMap<String, ArrayList<String>> catalogo = new HashMap<>();
-
+    // variabili
     private String personalita;
     private Random random = new Random();
-
-    // legge il file riga per riga
-    public static void caricaCatalogo(String file) throws IOException {
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file), "UTF-8"));
-        ArrayList<String> lista = null;
-        String riga;
-
-        while ((riga = br.readLine()) != null) {
-            riga = riga.trim();
-
-            if (riga.endsWith("[")) {
-                // riga tipo:  "normale": [   -> nuova personalita
-                String nome = riga.split("\"")[1];
-                lista = new ArrayList<>();
-                catalogo.put(nome, lista);
-            } else if (riga.startsWith("\"")) {
-                // riga tipo:  "e certo",   -> una risposta
-                lista.add(riga.split("\"")[1]);
-            }
-        }
-        br.close();
-    }
-
+    
+    // liste risposte
+    private final String[] risposteNormali = {
+        "e certo",
+        "e decisamente così",
+        "senza dubbio",
+        "si, sicuramente",
+        "puoi contarci",
+        "come la vedo io, si",
+        "molto probabilmente",
+        "buone prospettive",
+        "i segni dicono di si",
+        "risposta confusa, riprova",
+        "chiedi piu tardi",
+        "meglio non dirtelo ora",
+        "non posso prevedere ora",
+        "concentrati e chiedi di nuovo",
+        "non contarci",
+        "la mia risposta e no",
+        "le mie fonti dicono di no",
+        "prospettive non buone",
+        "molto dubbio"
+    };
+    
+    private final String[] risposteSecche = {
+        "si.",
+        "no",
+        "forse",
+        "snasni"
+    };
+    
+    private final String[] risposteMeme = {
+        "ma chi sei marlon oh",
+        "si, bobby restera a Roma",
+        "e guardamose",
+        "casalekkio",
+        "ah io cappo ",
+        "ma cosa ho appena letto",
+        "real",
+    };
+    
+    private final String[] risposteBini = {
+        "perche?",
+        "boh, secondo te?",
+        "eh?",
+        "ma che ne so io",
+        "dangelo e un terrone",
+        "casalekkio",
+        "uuoh oh",
+        "non ho capito",
+        "boh",
+        "e stato dangelo"
+    };
+    
+    // costruttore
     public PallaMagica(String personalita) {
         this.personalita = personalita;
     }
 
+    // getter
     public String getPersonalita() {
         return personalita;
     }
 
-    // valida se esiste nel catalogo
+    // controllo personalita valida
     public static boolean valida(String p) {
-        return p != null && catalogo.containsKey(p.toLowerCase());
+        if (p == null) return false;
+        String s = p.toLowerCase();
+        return s.equals("normale") || s.equals("secca") || s.equals("bini") || s.equals("meme");
     }
 
+    // generazione risposta
     public String rispondi(String domanda) {
-        ArrayList<String> scelte = catalogo.get(personalita.toLowerCase());
-        return "[" + personalita.toUpperCase() + "]: " + scelte.get(random.nextInt(scelte.size()));
+        String[] scelte;
+        switch (personalita.toLowerCase()) {
+            case "bini":
+                scelte = risposteBini;
+                break;
+            case "meme":
+                scelte = risposteMeme;
+                break;
+            case "secca":
+                scelte = risposteSecche;
+                break;
+            default:
+                scelte = risposteNormali;
+                break;
+        }
+        return "[" + personalita.toUpperCase() + "]: " + scelte[random.nextInt(scelte.length)];
     }
 }
